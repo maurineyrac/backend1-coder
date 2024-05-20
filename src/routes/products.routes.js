@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import productManager from '../productManager.js'
 import { checkProductData } from '../middleware/checkProductData.midware.js';
+import { checkProductKeys } from '../middleware/checkProductKeys.midware.js';
+
 
 const router = Router();
 
@@ -45,20 +47,11 @@ router.post('/', checkProductData, async (req, res) => {
     }
 });
 
-router.put('/:pid', async (req, res) => {
+router.put('/:pid',checkProductKeys, async (req, res) => {
     try {
         const { pid } = req.params;
         const product = req.body;
 
-
-        if (product.id || product.id === '') {
-            return res.status(403).json({ status: 'Error', msg: 'Updating product ID is not allowed' });
-        }
-
-        const products = await productManager.getProducts();
-        const productExists = products.find((p) => p.code === product.code);
-        if (productExists) return res.status(400).json({ status: "Error", msg: `El producto con el código ${product.code} ya existe` });
-        
         const updatedProduct = await productManager.updateProduct(Number(pid), product);
 
         if (!updatedProduct) {
