@@ -1,13 +1,13 @@
 <h1 class="mt-4 flex justify-center text-center text-xl font-bold">Lista de
   productos</h1>
-<h2 class="flex justify-center text-center text-lg font-semibold">Actualizar
+<h2 class="flex justify-center text-center text-lg font-semibold mb-4">Actualizar
   pagina para ver cambios</h2>
 {{#if products.length}}
 <ul id="productList">
   {{! Renderizo los productos almacenados inicialmente en la base de datos }}
   {{#each products}}
   <li data-id="{{this.id}}" class="flex justify-center">
-    <div class="border text-card-foreground w-full max-w-sm bg-[#f4f0f7] rounded-lg shadow-lg">
+    <div class="border text-card-foreground w-full max-w-sm bg-[#f4f0f7] rounded-lg shadow-lg mb-4">
       <div class="p-6">
         <div class="flex items-center justify-between mb-4">
           <h2 class="text-2xl font-bold text-[#6c5b7b]">{{this.title}}</h2>
