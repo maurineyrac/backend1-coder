@@ -6,15 +6,22 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon ./src/app.js"
+    "dev": "nodemon ./src/app.js",
+    "buildcss": "postcss src/styles/tailwind.css -o src/public/styles/styles.css"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^3.1.0"
+    "autoprefixer": "^10.4.19",
+    "nodemon": "^3.1.0",
+    "postcss": "^8.4.38",
+    "postcss-cli": "^11.0.0",
+    "tailwindcss": "^3.4.3"
   },
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "express-handlebars": "^7.1.2",
+    "socket.io": "^4.7.5"
   }
 }

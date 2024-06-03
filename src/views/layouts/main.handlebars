@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    {{#each styles}} {{!-- Renderizo los estilos --}}
+    <link rel="stylesheet" href="/styles/{{this}}">
+    {{/each}}
+    
+    <title>TP Products - coderhouse</title>
+</head>
+
+<body>
+    {{!-- Con esto todos los archivos que estén dentro de la carpeta views se vana a renderizar en {{{body}}} --}}
+    {{{body}}}
+</body>
+
+</html>

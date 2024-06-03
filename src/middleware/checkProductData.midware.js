@@ -2,8 +2,14 @@ import { request, response } from "express";
 import productManager from "../productManager.js";
 
 export const checkProductData = async (req = request, res = response, next) => {
+
     try {
-        const { title, description, price, code, stock, category } = req.body;
+        let { title, description, price, code, stock, category } = req.body;
+
+        price = parseFloat(price);
+        code = parseInt(code, 10);
+        stock = parseInt(stock, 10);
+
         const newProduct = {
             title,
             description,
@@ -14,12 +20,14 @@ export const checkProductData = async (req = request, res = response, next) => {
         };
 
         const products = await productManager.getProducts();
-        
+
+        const checkData = Object.values(newProduct).includes(undefined || "");
+        if (checkData ) return res.status(400).json({ status: "Error", msg: "Todos los datos son obligatorios" });
+
         const productExists = products.find((p) => p.code === code);
         if (productExists) return res.status(400).json({ status: "Error", msg: `El producto con el código ${code} ya existe` });
 
-        const checkData = Object.values(newProduct).includes(undefined);
-        if (checkData) return res.status(400).json({ status: "Error", msg: "Todos los datos son obligatorios" });
+
 
         next();
     } catch (error) {

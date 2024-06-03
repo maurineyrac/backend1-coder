@@ -47,7 +47,7 @@ router.post('/', checkProductData, async (req, res) => {
     }
 });
 
-router.put('/:pid',checkProductKeys, async (req, res) => {
+router.put('/:pid', checkProductKeys, async (req, res) => {
     try {
         const { pid } = req.params;
         const product = req.body;

@@ -1,9 +1,10 @@
-
 import fs from "fs";
+import __dirname from "./dirname.js";
+import path from "path";
+
+const pathFile = path.join(__dirname, "data", "carts.json");
 
 let carts = [];
-const pathFile = "./src/data/carts.json";
-
 const getCarts = async () => {
     const cartsJson = await fs.promises.readFile(pathFile, "utf-8");
     const cartsPars = JSON.parse(cartsJson);
@@ -24,7 +25,7 @@ const createCart = async () => {
 };
 
 const getCartById = async (cid) => {
-    
+
     await getCarts();
     const cart = carts.find((c) => c.id === cid);
     return cart;
