@@ -1,8 +1,8 @@
 import fs from "fs";
-import __dirname from "./dirname.js";
+import __dirname from "../../dirname.js";
 import path from "path";
 
-const pathFile = path.join(__dirname, "data", "products.json");
+const pathFile = path.join(__dirname, "dao", "fileSystem", "data", "products.json");
 
 let products = [];
 

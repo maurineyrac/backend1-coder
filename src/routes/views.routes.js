@@ -4,7 +4,7 @@ import viewRealTimeProductsRouter from "./viewRealTimeProducts.routes.js";
 
 const router = Router();
 
-router.use("/", viewProductsRouter);
+router.use("/products", viewProductsRouter);
 router.use("/realtimeproducts", viewRealTimeProductsRouter);
 
 export default router;

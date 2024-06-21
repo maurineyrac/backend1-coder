@@ -5,10 +5,13 @@ import __dirname from "./dirname.js";
 import indexRoutes from "./routes/index.routes.js";
 import viewsRoutes from './routes/views.routes.js'
 import { Server } from "socket.io";
+import { connectMongoDB } from "./config/mongoDB.config.js";
 
 // Configuracion de express
 const PORT = 8080;
 const app = express();
+
+connectMongoDB()
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

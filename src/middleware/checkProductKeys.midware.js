@@ -1,5 +1,6 @@
 import { request, response } from "express";
-import productManager from "../productManager.js";
+import { productModel } from "../dao/mongoDB/models/product.model.js";
+
 
 export const checkProductKeys = async (req = request, res = response, next) => {
     try {
@@ -9,7 +10,7 @@ export const checkProductKeys = async (req = request, res = response, next) => {
             return res.status(403).json({ status: 'Error', msg: 'Updating product ID is not allowed' });
         }
         
-        const products = await productManager.getProducts();
+        const products = await productModel.find();
 
         const productExists = products.find((p) => p.code === code);
         if (productExists) return res.status(400).json({ status: "Error", msg: `El producto con el código ${code} ya existe` });

@@ -1,15 +1,34 @@
 import { Router } from 'express';
-import productManager from '../productManager.js'
+import productDao from '../dao/mongoDB/product.dao.js';
 import { checkProductData } from '../middleware/checkProductData.midware.js';
 import { checkProductKeys } from '../middleware/checkProductKeys.midware.js';
+import { checkIDs } from '../middleware/checkmongoID.midware.js';
+
 
 
 const router = Router();
 
 router.get('/', async (req, res) => {
     try {
-        const { limit } = req.query;
-        const products = await productManager.getProducts(limit);
+        const { limit, page, sort, category, status } = req.query;
+
+        const options = { 
+            limit: parseInt(limit) || 10, 
+            page: parseInt(page) || 1, 
+            sort: { price: sort == 'asc' ? 1 : -1},
+            lean: true
+        };
+
+        if (category) {
+            const products = await productDao.getAll({category}, options);
+            return res.status(200).json({ status: 'OK', products });
+        }
+        if (status) {
+            const products = await productDao.getAll({status}, options);
+            return res.status(200).json({ status: 'OK', products });
+        }
+
+        const products = await productDao.getAll({}, options);
 
         res.status(200).json({ status: 'OK', products });
     } catch (error) {
@@ -19,10 +38,10 @@ router.get('/', async (req, res) => {
 
 });
 
-router.get('/:pid', async (req, res) => {
+router.get('/:pid', checkIDs, async (req, res) => {
     try {
         const { pid } = req.params;
-        const product = await productManager.getProductById(Number(pid));
+        const product = await productDao.getById((pid));
 
         if (!product) {
             return res.status(404).json({ status: 'Not Found', msg: 'Product not found' });
@@ -38,7 +57,7 @@ router.get('/:pid', async (req, res) => {
 router.post('/', checkProductData, async (req, res) => {
     try {
         const product = req.body;
-        const newProduct = await productManager.addProduct(product);
+        const newProduct = await productDao.create(product);
 
         res.status(201).json({ status: 'Created', newProduct });
     } catch (error) {
@@ -47,16 +66,12 @@ router.post('/', checkProductData, async (req, res) => {
     }
 });
 
-router.put('/:pid', checkProductKeys, async (req, res) => {
+router.put('/:pid', checkIDs, checkProductKeys, async (req, res) => {
     try {
         const { pid } = req.params;
         const product = req.body;
 
-        const updatedProduct = await productManager.updateProduct(Number(pid), product);
-
-        if (!updatedProduct) {
-            return res.status(404).json({ status: 'Not Found', msg: 'Product not found' });
-        }
+        const updatedProduct = await productDao.update((pid), product);
 
         res.status(200).json({ status: 'Updated', updatedProduct });
     } catch (error) {
@@ -65,14 +80,10 @@ router.put('/:pid', checkProductKeys, async (req, res) => {
     }
 });
 
-router.delete('/:pid', async (req, res) => {
+router.delete('/:pid', checkIDs, async (req, res) => {
     try {
         const { pid } = req.params;
-        const deletedProduct = await productManager.deleteProduct(Number(pid));
-
-        if (!deletedProduct) {
-            return res.status(404).json({ status: 'Not Found', msg: 'Product not found' });
-        }
+        const deletedProduct = await productDao.deleteOne(pid);
 
         res.status(200).json({ status: 'Deleted', deletedProduct });
     } catch (error) {

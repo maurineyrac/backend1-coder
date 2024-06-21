@@ -106,24 +106,3 @@ document.getElementById('productList').addEventListener('click', async (e) => {
     }
   }
 });
-
-
-//  // Cargar los productos iniciales al cargar la página
-//  async function loadProducts() {
-//   try {
-//       const response = await fetch('/realtimeproducts/initialproducts');
-//       if (response.ok) {
-        
-//           products = await response.json();
-//           // Cargar los productos iniciales en la página
-//           console.log('Carga inicial de products:', products);  
-//           renderProducts(products);
-//       } else {
-//           console.log('Error loading products');
-//       }
-//   } catch (error) {
-//       console.log('Network error:', error);
-//   }
-// }
-
-// loadProducts();

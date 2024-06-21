@@ -6,7 +6,7 @@
 <ul id="productList">
   {{! Renderizo los productos almacenados inicialmente en la base de datos }}
   {{#each products}}
-  <li data-id="{{this.id}}" class="flex justify-center">
+  <li data-id="{{this._id}}" class="flex justify-center">
     <div class="border text-card-foreground w-full max-w-sm bg-[#f4f0f7] rounded-lg shadow-lg mb-4">
       <div class="p-6">
         <div class="flex items-center justify-between mb-4">
@@ -33,6 +33,27 @@
   </li>
   {{/each}}
 </ul>
+
+<p class="flex justify-center m-4">Pagina: {{page}}</p>
+
+<!-- Paginación -->
+<div class="flex justify-evenly mt-4 mx-auto max-w-xs" >
+  {{#if hasPrevPage}}
+  <a class="p-4 w-32 bg-[#d4c7db]  flex justify-center rounded-md" href="?page={{prevPage}}&limit={{limit}}" class="btn">Previous</a>
+  {{/if}}
+
+  {{#if hasNextPage}}
+  <a class="p-4 w-32 bg-[#d4c7db]  flex justify-center rounded-md " href="?page={{nextPage}}&limit={{limit}}" class="btn">Next</a>
+  {{/if}}
+</div>
+
+<!-- Botones para cada página -->
+<div class="p-2 flex justify-evenly my-4 mx-auto max-w-lg " >
+  {{#each pages}}
+  <a class=" w-32 bg-[#d4c7db] flex justify-center rounded-md "  href="?page={{this}}&limit={{../limit}}" class="btn">{{this}}</a>
+  {{/each}}
+</div>
+
 {{else}}
 <h2 class="flex justify-center text-center text-lg font-semibold text-red-600">La base
   datos no contiene productos</h2>

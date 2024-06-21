@@ -1,5 +1,6 @@
 import { request, response } from "express";
-import productManager from "../productManager.js";
+import { productModel } from "../dao/mongoDB/models/product.model.js";
+
 
 export const checkProductData = async (req = request, res = response, next) => {
 
@@ -18,8 +19,8 @@ export const checkProductData = async (req = request, res = response, next) => {
             stock,
             category,
         };
-
-        const products = await productManager.getProducts();
+        
+        const products = await productModel.find();
 
         const checkData = Object.values(newProduct).includes(undefined || "");
         if (checkData ) return res.status(400).json({ status: "Error", msg: "Todos los datos son obligatorios" });
@@ -32,6 +33,6 @@ export const checkProductData = async (req = request, res = response, next) => {
         next();
     } catch (error) {
         console.log(error);
-        res.status(500).json({ status: "Erro", msg: "Error interno del servidor" });
+        res.status(500).json({ status: "Error", msg: "Error interno del servidor" });
     }
 };
